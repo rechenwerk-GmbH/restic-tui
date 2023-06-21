@@ -40,7 +40,7 @@ It builds upon restic's functionality, offering a graphical interface for common
 ## Installation
 
 ```bash
-curl -O https://raw.githubusercontent.com/pk7x/restic-tui/main/restic-tui.sh
+curl -O https://raw.githubusercontent.com/rechenwerk-GmbH/restic-tui/master/restic-tui.sh
 chmod +x restic-tui.sh
 sudo ./restic-tui.sh
 ```

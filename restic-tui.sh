@@ -412,7 +412,7 @@ function display_menu() {
     echo -e "██╔══██╗██╔══╝  ╚════██║   ██║   ██║██║            ██║   ██║   ██║██║"
     echo -e "██║  ██║███████╗███████║   ██║   ██║╚██████╗       ██║   ╚██████╔╝██║"
     echo -e "╚═╝  ╚═╝╚══════╝╚══════╝   ╚═╝   ╚═╝ ╚═════╝       ╚═╝    ╚═════╝ ╚═╝"
-    echo -e "                                            git.pk7.io/pk7/restic-tui"
+    echo -e "                                                                  pk7"
     check_restic
     echo -e "restic is ${restic_installed}"
     echo -e "repository used: ${YELLOW}${RESTIC_REPOSITORY}${NC}"

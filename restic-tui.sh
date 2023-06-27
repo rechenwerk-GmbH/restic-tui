@@ -159,7 +159,7 @@ function daily_backup() {
 # Function to backup the whole system
 function backup_whole_system() {
     echo "Backing up whole system..."
-    restic --exclude={/dev,/media,/mnt,/proc,/run,/sys,/tmp,/var/tmp} backup /
+    restic --exclude={/dev,/media,/mnt,/proc,/run,/sys,/tmp,/var/tmp,/timeshift} backup /
 }
 
 # Function to backup specific directories or files

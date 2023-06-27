@@ -118,7 +118,7 @@ function weekly_backup() {
         fi
     fi
 
-    restic --exclude={/dev,/media,/mnt,/proc,/run,/sys,/tmp,/var/tmp} backup /
+    backup_whole_system
 
     # Write the current date to the lockfile
     echo "$(date +%Y-%m-%d)" > ${LOCKFILE}
@@ -150,7 +150,7 @@ function daily_backup() {
         fi
     fi
 
-    restic --exclude={/dev,/media,/mnt,/proc,/run,/sys,/tmp,/var/tmp} backup /
+    backup_whole_system
 
     # Write the current date to the lockfile
     echo "$(date +%Y-%m-%d)" > ${LOCKFILE}

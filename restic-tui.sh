@@ -95,34 +95,30 @@ function weekly_backup() {
         touch ${LOCKFILE}
     fi
 
-    # Check if the lockfile exists and read the date from it
-    if [ -f ${LOCKFILE} ]
+    # Get the date from the lockfile and convert it to a timestamp
+    LOCKFILE_DATE=$(cat ${LOCKFILE})
+
+    # If the lockfile is empty, set the date to 1970-01-01 00:00:00 UTC
+    if [ -z "${LOCKFILE_DATE}" ]
     then
-        # Get the date from the lockfile and convert it to a timestamp
-        LOCKFILE_DATE=$(cat ${LOCKFILE})
+        LOCKFILE_DATE="1970-01-01"
+    fi
 
-        # If the lockfile is empty, set the date to 1970-01-01 00:00:00 UTC
-        if [ -z "${LOCKFILE_DATE}" ]
-        then
-            LOCKFILE_DATE="1970-01-01"
-        fi
-
-        # Format the date from the lockfile to a timestamp in seconds since 1970-01-01 00:00:00 UTC
-        LOCKFILE_TIMESTAMP=$(date -d ${LOCKFILE_DATE} +%s)
-        # Get the current date and convert it to a timestamp in seconds since 1970-01-01 00:00:00 UTC
-        CURRENT_DATE=$(date +%s)
-        # Calculate the difference between the current date and the date from the lockfile in seconds
-        DIFFERENCE=$((CURRENT_DATE - LOCKFILE_TIMESTAMP))
-        # Calculate the difference between the current date and the date from the lockfile in days
-        DIFFERENCE_DAYS=$(($DIFFERENCE / (60 * 60 * 24)))
+    # Format the date from the lockfile to a timestamp in seconds since 1970-01-01 00:00:00 UTC
+    LOCKFILE_TIMESTAMP=$(date -d ${LOCKFILE_DATE} +%s)
+    # Get the current date and convert it to a timestamp in seconds since 1970-01-01 00:00:00 UTC
+    CURRENT_DATE=$(date +%s)
+    # Calculate the difference between the current date and the date from the lockfile in seconds
+    DIFFERENCE=$((CURRENT_DATE - LOCKFILE_TIMESTAMP))
+    # Calculate the difference between the current date and the date from the lockfile in days
+    DIFFERENCE_DAYS=$(($DIFFERENCE / (60 * 60 * 24)))
 
 
-        # Compare the date from the lockfile with the current date
-        if [ "${DIFFERENCE_DAYS}" -gt 7 ]
-        then
-            echo "Backup already executed this week"
-            exit 0
-        fi
+    # Compare the date from the lockfile with the current date
+    if [ "${DIFFERENCE_DAYS}" -lt 7 ]
+    then
+        echo "Backup already executed this week"
+        exit 0
     fi
 
     backup_whole_system
@@ -300,35 +296,32 @@ function weekly_forget() {
         touch ${LOCKFILE}
     fi
 
-    # Check if the lockfile exists and read the date from it
-    if [ -f ${LOCKFILE} ]
+    # Get the date from the lockfile and convert it to a timestamp
+    LOCKFILE_DATE=$(cat ${LOCKFILE})
+
+    # If the lockfile is empty, set the date to 1970-01-01 00:00:00 UTC
+    if [ -z "${LOCKFILE_DATE}" ]
     then
-        # Get the date from the lockfile and convert it to a timestamp
-        LOCKFILE_DATE=$(cat ${LOCKFILE})
-
-        # If the lockfile is empty, set the date to 1970-01-01 00:00:00 UTC
-        if [ -z "${LOCKFILE_DATE}" ]
-        then
-            LOCKFILE_DATE="1970-01-01"
-        fi
-
-        # Format the date from the lockfile to a timestamp in seconds since 1970-01-01 00:00:00 UTC
-        LOCKFILE_TIMESTAMP=$(date -d ${LOCKFILE_DATE} +%s)
-        # Get the current date and convert it to a timestamp in seconds since 1970-01-01 00:00:00 UTC
-        CURRENT_DATE=$(date +%s)
-        # Calculate the difference between the current date and the date from the lockfile in seconds
-        DIFFERENCE=$((CURRENT_DATE - LOCKFILE_TIMESTAMP))
-        # Calculate the difference between the current date and the date from the lockfile in days
-        DIFFERENCE_DAYS=$(($DIFFERENCE / (60 * 60 * 24)))
-
-
-        # Compare the date from the lockfile with the current date
-        if [ "${DIFFERENCE_DAYS}" -gt 7 ]
-        then
-            echo "Forget already executed this week"
-            exit 0
-        fi
+        LOCKFILE_DATE="1970-01-01"
     fi
+
+    # Format the date from the lockfile to a timestamp in seconds since 1970-01-01 00:00:00 UTC
+    LOCKFILE_TIMESTAMP=$(date -d ${LOCKFILE_DATE} +%s)
+    # Get the current date and convert it to a timestamp in seconds since 1970-01-01 00:00:00 UTC
+    CURRENT_DATE=$(date +%s)
+    # Calculate the difference between the current date and the date from the lockfile in seconds
+    DIFFERENCE=$((CURRENT_DATE - LOCKFILE_TIMESTAMP))
+    # Calculate the difference between the current date and the date from the lockfile in days
+    DIFFERENCE_DAYS=$(($DIFFERENCE / (60 * 60 * 24)))
+
+
+    # Compare the date from the lockfile with the current date
+    if [ "${DIFFERENCE_DAYS}" -lt 7 ]
+    then
+        echo "Forget already executed this week"
+        exit 0
+    fi
+
 
     restic forget --keep-within ${KEEP_DAYS}d
 

@@ -214,8 +214,8 @@ function schedule_backup() {
     # Ask if the user wants to schedule a weekly or daily backup
     read -p "Do you want to schedule a weekly or daily backup? (w/d): " schedule
     case $schedule in
-        [Ww]* ) JOB="@reboot ${SCRIPT_PATH}/$(basename $0) weekly-backup";;
-        [Dd]* ) JOB="@reboot ${SCRIPT_PATH}/$(basename $0) daily-backup";;
+        [Ww]* ) JOB="sleep 60 && @reboot ${SCRIPT_PATH}/$(basename $0) weekly-backup > ${SCRIPT_PATH}/backup.log";;
+        [Dd]* ) JOB="sleep 60 && @reboot ${SCRIPT_PATH}/$(basename $0) daily-backup > ${SCRIPT_PATH}/backup.log";;
         * ) echo "Please answer with w or d"; exit;;
     esac
 
@@ -235,8 +235,8 @@ function schedule_forget() {
         # Ask if the user wants to schedule a weekly or daily forget
     read -p "Do you want to schedule a weekly or daily forget? (w/d): " schedule
     case $schedule in
-        [Ww]* ) JOB="@reboot ${SCRIPT_PATH}/$(basename $0) weekly-forget";;
-        [Dd]* ) JOB="@reboot ${SCRIPT_PATH}/$(basename $0) daily-forget";;
+        [Ww]* ) JOB="sleep 60 && @reboot ${SCRIPT_PATH}/$(basename $0) weekly-forget > ${SCRIPT_PATH}/forget.log";;
+        [Dd]* ) JOB="sleep 60 && @reboot ${SCRIPT_PATH}/$(basename $0) daily-forget > ${SCRIPT_PATH}/forget.log";;
         * ) echo "Please answer with w or d"; exit;;
     esac
 
